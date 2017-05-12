@@ -498,7 +498,8 @@ otp.modules.planner.PlannerModule =
             // draw the polyline
             var polyline = new L.Polyline(otp.util.Geo.decodePolyline(leg.legGeometry.points));
             var weight = 8;
-            polyline.setStyle({ color : this.getModeColor(leg.mode), weight: weight});
+            polyline.setStyle({ color : this.getModeColor(leg), weight: weight});
+            if(leg.mode == 'WALK') polyline.setStyle({ dashArray: '10, 10' });
             this.pathLayer.addLayer(polyline);
             polyline.leg = leg;
             polyline.bindPopup("("+leg.routeShortName+") "+leg.routeLongName);
@@ -604,7 +605,9 @@ otp.modules.planner.PlannerModule =
         }
     },
 
-    getModeColor : function(mode) {
+    getModeColor : function(leg) {
+    	if (leg.routeColor) return "#" + leg.routeColor;
+        var mode = leg.mode;
         if(mode === "WALK") return '#444';
         if(mode === "BICYCLE") return '#0073e5';
         if(mode === "SUBWAY") return '#f00';
