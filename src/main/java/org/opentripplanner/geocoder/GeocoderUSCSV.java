@@ -22,6 +22,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -98,4 +99,9 @@ public class GeocoderUSCSV implements Geocoder {
         // use the response as the error message returned back
         return new GeocoderResults(content);
     }
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 }

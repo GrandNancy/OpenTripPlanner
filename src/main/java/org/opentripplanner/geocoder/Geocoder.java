@@ -13,10 +13,14 @@
 
 package org.opentripplanner.geocoder;
 
+import java.util.List;
+
 import com.vividsolutions.jts.geom.Envelope;
 
 public interface Geocoder {
-
+    
     public GeocoderResults geocode(String address, Envelope bbox);
+
+    public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions);
 
 }

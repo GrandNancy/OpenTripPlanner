@@ -55,5 +55,10 @@ public class GeocoderGeoZoneCropper implements Geocoder {
         }
         return retval;
     }
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 
 }

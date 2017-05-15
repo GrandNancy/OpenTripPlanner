@@ -204,11 +204,19 @@ otp.modules.planner.PlannerModule =
 
     handleClick : function(event) {
         if(this.startLatLng == null) {
-        	this.setStartPoint(new L.LatLng(event.latlng.lat, event.latlng.lng), true);
+        	var boundaryResolver = new otp.core.BoundaryResolver();
+        	boundaryResolver.boundaryResolve(event.latlng, $.proxy(function(results) {
+        		//TODO mettre le code qui affiche le nom à la place de LatLng
+                this.setStartPoint(new L.LatLng(event.latlng.lat, event.latlng.lng), true, results);
+            }, this));
         }
 
         else if(this.endLatLng == null) {
-        	this.setEndPoint(new L.LatLng(event.latlng.lat, event.latlng.lng), true);
+        	var boundaryResolver = new otp.core.BoundaryResolver();
+        	boundaryResolver.boundaryResolve(event.latlng, $.proxy(function(results) {
+        		//TODO mettre le code qui affiche le nom à la place de LatLng
+                this.setEndPoint(new L.LatLng(event.latlng.lat, event.latlng.lng), true, results);
+            }, this));
         }
     },
 

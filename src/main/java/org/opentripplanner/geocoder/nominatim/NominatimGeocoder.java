@@ -33,10 +33,11 @@ import java.util.List;
 public class NominatimGeocoder implements Geocoder {
     private static final Logger LOG = LoggerFactory.getLogger(NominatimGeocoder.class);
 
-    private String nominatimUrl;
+    private String nominatimUrl="https://api.pickpoint.io/v1/forward";
     private Integer resultLimit;
     private String viewBox;
     private String emailAddress;
+    private String key="Nyh7euKivmi7rq-yUUW7";
     
     private NominatimJsonDeserializer nominatimJsonDeserializer; 
     
@@ -128,6 +129,9 @@ public class NominatimGeocoder implements Geocoder {
         if (emailAddress != null) {
             uriBuilder.queryParam("email", emailAddress);
         }
+        if (key != null) {
+            uriBuilder.queryParam("key", key);
+        }
         
         URI uri = uriBuilder.build();
         return new URL(uri.toString());
@@ -136,5 +140,10 @@ public class NominatimGeocoder implements Geocoder {
     private GeocoderResults noGeocoderResult(String error) {
         return new GeocoderResults(error);
     }
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 
 }

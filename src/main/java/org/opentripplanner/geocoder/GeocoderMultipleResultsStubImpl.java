@@ -14,6 +14,7 @@
 package org.opentripplanner.geocoder;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.vividsolutions.jts.geom.Envelope;
 
@@ -30,5 +31,10 @@ public class GeocoderMultipleResultsStubImpl implements Geocoder {
     public GeocoderResults geocode(String address, Envelope bbox) {
         return new GeocoderResults(results);
     }
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 
 }

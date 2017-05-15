@@ -185,14 +185,26 @@ otp.config = {
      */
 
     geocoders : [
-        {
+        /*{
             name: 'OTP built-in geocoder',
             className: 'otp.core.GeocoderBuiltin'
             // URL and query parameter do not need to be set for built-in geocoder.
-        }
+        }*/
+    	{
+    	    name: 'BANO Geocoder',
+    	    className: 'otp.core.Geocoder',
+    	    url: 'otp/geocode',
+    	    addressParam: 'address'
+    	}
     ],
 
+    zipRestrictions : [54000, 54300, 54500, 54600],
     
+
+    boundaryResolver : {
+            name: 'Bano Geocodeur',
+            url: 'http://api-adresse.data.gouv.fr/reverse'
+        },
 
     //This is shown if showLanguageChooser is true
     infoWidgetLangChooser : {
