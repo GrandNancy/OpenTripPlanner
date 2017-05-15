@@ -606,7 +606,7 @@ otp.modules.planner.PlannerModule =
     },
 
     getModeColor : function(leg) {
-    	if (leg.routeColor) return "#" + leg.routeColor;
+        if (leg.routeColor) return "#" + leg.routeColor;
         var mode = leg.mode;
         if(mode === "WALK") return '#444';
         if(mode === "BICYCLE") return '#0073e5';

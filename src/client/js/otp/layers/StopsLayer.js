@@ -81,7 +81,28 @@ otp.layers.StopsLayer =
                 var stopIdArr = stopId.split(':');
                 var marker = this;
                 this_.module.webapp.indexApi.loadStopById(stopIdArr[0], stopIdArr[1], this_, function(detailedStop) {
-                    marker.setPopupContent(this_.getPopupContent(detailedStop));
+                	// add info about stops
+                	var myHTML = this_.getPopupContent(detailedStop);
+                    var ul = document.createElement('ul');
+                    var div = document.createElement('div');
+                    var liWheelchairBoarding = document.createElement('li');
+                    div.innerHTML = "<b>"  + _tr('Other Informations') + "</b>"
+                    var wheelchairAccessibility = "";
+                    switch(detailedStop.wheelchairBoarding) {
+                        case 1:
+                            wheelchairAccessibility = _tr("yes");
+                            break;
+                        case 2:
+                            wheelchairAccessibility = _tr("no");
+                            break;
+                        default:
+                            wheelchairAccessibility = _tr("unknown");
+                    }
+                    liWheelchairBoarding.innerHTML = _tr("Wheelchair boarding : ") + wheelchairAccessibility;
+                    ul.append(liWheelchairBoarding);
+                    myHTML.append(div);
+                    myHTML.append(ul);
+                    marker.setPopupContent(myHTML);
                     this_.module.webapp.indexApi.loadRoutesForStop(stopId, this_, function(data) {
                         _.each(data, function(route) {
                             ich['otp-stopsLayer-popupRoute'](route).appendTo($('.routeList'));
@@ -119,7 +140,6 @@ otp.layers.StopsLayer =
         context.from_stop = from_stop_trans;
         context.to_stop = to_stop_trans;
         var popupContent = ich['otp-stopsLayer-popup'](context);
-
         popupContent.find('.stopViewerLink').data('stop', stop).click(function() {
             var thisStop = $(this).data('stop');
             this_.module.stopViewerWidget.show();

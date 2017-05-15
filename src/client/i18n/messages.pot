@@ -1211,3 +1211,23 @@ msgstr ""
 msgid "Plan Your Trip"
 msgstr ""
 
+#: src/client/js/otp/layers/StopsLayer.js:89
+msgid "Other Informations"
+msgstr ""
+
+#: src/client/js/otp/layers/StopsLayer.js:93
+msgid "yes"
+msgstr ""
+
+#: src/client/js/otp/layers/StopsLayer.js:96
+msgid "no"
+msgstr ""
+
+#: src/client/js/otp/layers/StopsLayer.js:99
+msgid "unknown"
+msgstr ""
+
+#: src/client/js/otp/layers/StopsLayer.js:101
+msgid "Wheelchair boarding"
+msgstr ""
+
