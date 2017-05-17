@@ -70,6 +70,18 @@ otp.config = {
      */
 
     baseLayers: [
+
+        {
+            name: 'G-Ny WMS',
+            type: 'WMS',
+            tileUrl: 'http://geo1.g-ny.org/mapproxy/service?',
+            layers: 'gny_bright',
+            format: 'image/png',
+            srs:'EPSG:3857',
+            exceptions: 'application/vnd.ogc.se_inimage',
+            version :'1.1.1',
+            transparent: true,
+        },
         {
             name: 'Stamen Terrain',
             tileUrl: 'http://tile.stamen.com/terrain/{z}/{x}/{y}.png',
@@ -151,7 +163,7 @@ otp.config = {
         {
             id : 'planner',
             className : 'otp.modules.multimodal.MultimodalPlannerModule',
-            defaultBaseLayer : 'Stamen Terrain',
+            defaultBaseLayer : 'G-Ny WMS',
             isDefault: true
         },
         {
@@ -173,14 +185,26 @@ otp.config = {
      */
 
     geocoders : [
-        {
+        /*{
             name: 'OTP built-in geocoder',
             className: 'otp.core.GeocoderBuiltin'
             // URL and query parameter do not need to be set for built-in geocoder.
-        }
+        }*/
+    	{
+    	    name: 'BANO Geocoder',
+    	    className: 'otp.core.Geocoder',
+    	    url: 'otp/geocode',
+    	    addressParam: 'address'
+    	}
     ],
 
+    zipRestrictions : [54000, 54300, 54500, 54600],
     
+
+    boundaryResolver : {
+            name: 'Bano Geocodeur',
+            url: 'http://api-adresse.data.gouv.fr/reverse'
+        },
 
     //This is shown if showLanguageChooser is true
     infoWidgetLangChooser : {

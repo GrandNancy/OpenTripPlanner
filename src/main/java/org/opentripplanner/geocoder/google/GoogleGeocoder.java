@@ -90,4 +90,9 @@ public class GoogleGeocoder implements Geocoder {
 		return new URL(uri.toString());
 	}
 
+	@Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
+
 }

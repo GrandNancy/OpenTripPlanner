@@ -13,6 +13,8 @@
 
 package org.opentripplanner.api.resource;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -42,14 +44,22 @@ public class ExternalGeocoderResource {
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
     public GeocoderResults geocode(
             @QueryParam("address") String address,
+            @QueryParam("zipRestrictions") List<Integer> zipRestrictions,
             @QueryParam("bbox") BoundingBox bbox) {
         if (address == null) {
             badRequest ("no address");
         }
+        if (geocoder==null) {
+            org.opentripplanner.geocoder.bano.BanoGeocoder newGeocoder = new org.opentripplanner.geocoder.bano.BanoGeocoder();
+            geocoder = newGeocoder;
+        }
         Envelope env = (bbox == null) ? null : bbox.envelope();
-        return geocoder.geocode(address, env);
+        if (zipRestrictions==null){
+            return geocoder.geocode(address, env);
+        }
+        return geocoder.geocode(address, env, zipRestrictions);
     }
-    
+
     private void badRequest (String message) {
         throw new WebApplicationException(Response.status(Status.BAD_REQUEST)
                 .entity(message).type("text/plain").build());

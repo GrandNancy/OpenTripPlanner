@@ -13,6 +13,8 @@
 
 package org.opentripplanner.geocoder;
 
+import java.util.List;
+
 import com.vividsolutions.jts.geom.Envelope;
 
 
@@ -35,5 +37,11 @@ public class AlternatingGeocoder implements Geocoder {
         Geocoder g = useFirstGeocoder ? geocoder1 : geocoder2;
         return g.geocode(address, bbox);
     }
+    
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 
 }

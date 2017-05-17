@@ -13,6 +13,8 @@
 
 package org.opentripplanner.geocoder;
 
+import java.util.List;
+
 import com.vividsolutions.jts.geom.Envelope;
 
 public class GeocoderNullImpl implements Geocoder {
@@ -23,4 +25,9 @@ public class GeocoderNullImpl implements Geocoder {
     public GeocoderResults geocode(String address, Envelope bbox) {
         return new GeocoderResults(ERROR_MSG);
     }
+    
+    @Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 }

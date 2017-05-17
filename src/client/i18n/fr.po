@@ -1257,3 +1257,23 @@ msgstr "un Vélo Libre Service"
 msgid "Plan Your Trip"
 msgstr "Calculer votre itinéraire"
 
+#: src/client/js/otp/layers/StopsLayer.js:89
+msgid "Other Informations"
+msgstr "Autres informations"
+
+#: src/client/js/otp/layers/StopsLayer.js:93
+msgid "yes"
+msgstr "oui"
+
+#: src/client/js/otp/layers/StopsLayer.js:96
+msgid "no"
+msgstr "non"
+
+#: src/client/js/otp/layers/StopsLayer.js:99
+msgid "unknown"
+msgstr "inconnu"
+
+#: src/client/js/otp/layers/StopsLayer.js:101
+msgid "Wheelchair boarding : "
+msgstr "Accessible aux fauteuils roulants : "
+

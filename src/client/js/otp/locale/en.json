@@ -223,5 +223,10 @@
     "Depart_itinerary": "Depart",
     "depart_itinerary": "depart",
     "Start_popup": "Start",
-    "Depart_tripoptions": "Depart"
+    "Depart_tripoptions": "Depart",
+    "Other Informations" : "Other Informations",
+    "yes" : "yes",
+    "no" : "no",
+    "unknown" : "unknown",
+    "Wheelchair boarding : " : "Wheelchair boarding : "
 }

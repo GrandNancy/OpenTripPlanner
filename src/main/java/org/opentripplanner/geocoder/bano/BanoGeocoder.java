@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -48,7 +49,7 @@ import java.util.List;
 public class BanoGeocoder implements Geocoder {
     private static final Logger LOG = LoggerFactory.getLogger(BanoGeocoder.class);
 
-    private static final String BANO_URL = "http://api.adresse.data.gouv.fr/search/";
+    private static final String BANO_URL = "http://api-adresse.data.gouv.fr/search";
 
     private static final int CLAMP_RESULTS = 10;
 
@@ -108,4 +109,55 @@ public class BanoGeocoder implements Geocoder {
         URI uri = uriBuilder.build();
         return new URL(uri.toString());
     }
+
+	@Override
+	public GeocoderResults geocode(String address, Envelope bbox, List<Integer> zipRestrictions) {
+		try {
+            URL banoUrl = getBanoGeocoderUrl(address, bbox, zipRestrictions);
+            URLConnection conn = banoUrl.openConnection();
+            InputStream in = conn.getInputStream();
+            FeatureCollection featureCollection = mapper.readValue(in, FeatureCollection.class);
+            in.close();
+
+            List<GeocoderResult> geocoderResults = new ArrayList<GeocoderResult>();
+            for (Feature feature : featureCollection.getFeatures()) {
+                GeoJsonObject geom = feature.getGeometry();
+                if (geom instanceof Point) {
+                    Point p = (Point) geom;
+                    GeocoderResult res = new GeocoderResult();
+                    res.setLat(p.getCoordinates().getLatitude());
+                    res.setLng(p.getCoordinates().getLongitude());
+                    res.setDescription(feature.getProperties().get("label").toString());
+                    /*
+                     * Note: We also have here as properties a break-down of other details, such as
+                     * the house number, street, city, postcode... Can be useful if needed.
+                     */
+                    geocoderResults.add(res);
+                } else {
+                    // Should not happen according to the API
+                }
+            }
+            return new GeocoderResults(geocoderResults);
+
+        } catch (IOException e) {
+            LOG.error("Error processing BANO geocoder results", e);
+            return new GeocoderResults(e.getLocalizedMessage());
+        }
+	}
+
+	private URL getBanoGeocoderUrl(String address, Envelope bbox, List<Integer> zipRestrictions) throws MalformedURLException {
+		UriBuilder uriBuilder = UriBuilder.fromUri(BANO_URL);
+        uriBuilder.queryParam("q", address);
+        uriBuilder.queryParam("limit", CLAMP_RESULTS);
+        if (bbox != null) {
+            uriBuilder.queryParam("lat", bbox.centre().y);
+            uriBuilder.queryParam("lon", bbox.centre().x);
+        }
+        
+        /// Waiting for the Feature
+        uriBuilder.queryParam("lat", 48.693);
+        uriBuilder.queryParam("lon", 6.183);
+        URI uri = uriBuilder.build();
+        return new URL(uri.toString());
+	}
 }

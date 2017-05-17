@@ -14,11 +14,30 @@
 
 
 otp.namespace("otp.core");
+function myFunc(container, zipCodes){
+        var results = [];
+        if (zipCodes){
+        	$(zipCodes).each(function() {
+                var zipCodes = this.toString();
+               $(container).each(function () {
+                    var that = this.description;
+                    if(that.includes(zipCodes)){
+                        results.push(this);
+                    }
 
+                });
+            });
+            return results;
+        }
+        
+        return container;   
+    }
 otp.core.Geocoder = otp.Class({
+    
     
     url : null,
     addressParam : null,
+    zipRestrictions : "zipRestrictions",
     
     initialize : function(url, addressParam) {
         this.url = url;
@@ -26,34 +45,36 @@ otp.core.Geocoder = otp.Class({
     },
     
     geocode : function(address, setResultsCallback) {
-    
-        var params = { }; 
+        var params = { };
+        params[this.zipRestrictions] = otp.config.zipRestrictions;
         params[this.addressParam] = address;
-        
-        // Avoid out-of-order responses from the geocoding service. see #1419
-        lastXhr = $.ajax(this.url, {
+        $.ajaxSetup({traditional:true});
+       // Avoid out-of-order responses from the geocoding service. see #1419
+        lastXhr = $.ajax(otp.config.hostname + "/" + this.url, {
             data : params,
             
             success: function(data, status, xhr) {
               if (xhr === lastXhr){
                 if((typeof data) == "string") data = jQuery.parseXML(data);
                 var results = [];
-                $(data).find("geocoderResults").find("results").find("result").each(function () {
+                // use zipRestrictions
+                console.log(data.results);
+                data.results = myFunc(data.results,otp.config.zipRestrictions);
+                console.log(data.results);
+                $(data.results).each(function () {
                     var resultXml = $(this);
                     
                     var resultObj = {
-                        description : resultXml.find("description").text(),
-                        lat : resultXml.find("lat").text(),
-                        lng : resultXml.find("lng").text()
+                        description : resultXml[0].description,
+                        lat : resultXml[0].lat,
+                        lng : resultXml[0].lng
                     };
-    
-                    results.push(resultObj);                    
+                    
+                    results.push(resultObj);
                 });
-                
                 setResultsCallback.call(this, results);
               }
             }
         });        
-    } 
-    
+    },
 });

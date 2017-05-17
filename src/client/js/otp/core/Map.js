@@ -34,24 +34,32 @@ otp.core.Map = otp.Class({
         
                 
         //var baseLayers = {};
-        var defaultBaseLayer = null;
-        
         for(var i=0; i<otp.config.baseLayers.length; i++) { //otp.config.baseLayers.length-1; i >= 0; i--) {
-            var layerConfig = otp.config.baseLayers[i];
-
-            var layerProps = { };
-            if(layerConfig.attribution) layerProps['attribution'] = layerConfig.attribution;
-            if(layerConfig.subdomains) layerProps['subdomains'] = layerConfig.subdomains;
-
-            var layer = new L.TileLayer(layerConfig.tileUrl, layerProps);
-
-	        this.baseLayers[layerConfig.name] = layer;
-            if(i == 0) defaultBaseLayer = layer;            
-	        
-	        if(typeof layerConfig.getTileUrl != 'undefined') {
-        	    layer.getTileUrl = otp.config.getTileUrl;
-            }
-        }
+        	 var layerConfig = otp.config.baseLayers[i];
+        	 var layerProps = { };
+        	 if(layerConfig.attribution) layerProps['attribution'] = layerConfig.attribution;
+        	 if(layerConfig.subdomains) layerProps['subdomains'] = layerConfig.subdomains;
+        	 if(layerConfig.type) layerProps['type'] = layerConfig.type;
+        	            // var layer = new L.TileLayer(layerConfig.tileUrl, layerProps);
+        	            if(layerProps['type']=='WMS'){
+        	                var wmsOptions = { };
+        	                if(layerConfig.layers) wmsOptions['layers'] = layerConfig.layers;
+        	                if(layerConfig.format) wmsOptions['format'] = layerConfig.format;
+        	                if(layerConfig.srs) wmsOptions['srs'] = layerConfig.srs;
+        	                if(layerConfig.version) wmsOptions['version'] = layerConfig.version;
+        	                if(layerConfig.exceptions) wmsOptions['exceptions'] = layerConfig.exceptions;
+        	                if(layerConfig.transparent) wmsOptions['transparent'] = layerConfig.transparent;
+        	                var layer = new L.TileLayer.WMS(layerConfig.tileUrl, wmsOptions);
+        	            }
+        	            else{
+        	                var layer = new L.TileLayer(layerConfig.tileUrl, layerProps);
+        	            }
+        	            this.baseLayers[layerConfig.name] = layer;
+        	            if(i == 0) defaultBaseLayer = layer;           
+        	            if(typeof layerConfig.getTileUrl != 'undefined') {
+        	                layer.getTileUrl = otp.config.getTileUrl;
+        	            }
+        	}
         
 
         var mapProps = { 

@@ -120,5 +120,10 @@ public class YahooGeocoder implements Geocoder {
 	private GeocoderResults noGeocoderResult(String error) {
 		return new GeocoderResults(error);
 	}
+	
+	@Override
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+		return this.geocode(address, env);
+	}
 
 }
