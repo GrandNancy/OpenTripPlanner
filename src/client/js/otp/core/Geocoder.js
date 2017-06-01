@@ -32,12 +32,12 @@ function myFunc(container, zipCodes){
         
         return container;   
     }
-otp.core.Geocoder = otp.Class({
-    
+
+	otp.core.Geocoder = otp.Class({
     
     url : null,
     addressParam : null,
-    zipRestrictions : "zipRestrictions",
+    zipCodeRestriction : "zipCodeRestriction",
     
     initialize : function(url, addressParam) {
         this.url = url;
@@ -46,7 +46,7 @@ otp.core.Geocoder = otp.Class({
     
     geocode : function(address, setResultsCallback) {
         var params = { };
-        params[this.zipRestrictions] = otp.config.zipRestrictions;
+        params[this.zipCodeRestriction] = otp.config.zipCodeRestriction;
         params[this.addressParam] = address;
         $.ajaxSetup({traditional:true});
        // Avoid out-of-order responses from the geocoding service. see #1419
@@ -57,9 +57,9 @@ otp.core.Geocoder = otp.Class({
               if (xhr === lastXhr){
                 if((typeof data) == "string") data = jQuery.parseXML(data);
                 var results = [];
-                // use zipRestrictions
+                // use zipCodeRestriction
                 console.log(data.results);
-                data.results = myFunc(data.results,otp.config.zipRestrictions);
+                data.results = myFunc(data.results,otp.config.zipCodeRestriction);
                 console.log(data.results);
                 $(data.results).each(function () {
                     var resultXml = $(this);

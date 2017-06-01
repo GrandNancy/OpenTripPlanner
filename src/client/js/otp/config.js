@@ -43,7 +43,6 @@ otp.config = {
         return str;
     },
 
-
     /**
      * The OTP web service locations
      */
@@ -119,16 +118,16 @@ otp.config = {
     /**
      * Map start location and zoom settings: by default, the client uses the
      * OTP routerInfo API call to center and zoom the map. The following
-     * properties, when set, override that behavioir.
+     * properties, when set, override that behaviour.
      */
      
-    // initLatLng : new L.LatLng(<lat>, <lng>),
-    // initZoom : 14,
-    // minZoom : 10,
-    // maxZoom : 20,
+    initLatLng : new L.LatLng(48.692805, 6.183812),
+    initZoom : 13,
+    minZoom : 12,
+    maxZoom : 18,
     
     /* Whether the map should be moved to contain the full itinerary when a result is received. */
-    zoomToFitResults    : false,
+    zoomToFitResults    : true,
 
     /**
      * Site name / description / branding display options
@@ -137,7 +136,7 @@ otp.config = {
     siteName            : "My OTP Instance",
     siteDescription     : "An OpenTripPlanner deployment.",
     logoGraphic         : 'images/otp_logo_darkbg_40px.png',
-    // bikeshareName    : "",
+    bikeshareName       : "VeloStan'Lib",
     //Enable this if you want to show frontend language chooser
     showLanguageChooser : true,
 
@@ -198,8 +197,7 @@ otp.config = {
     	}
     ],
 
-    zipRestrictions : [54000, 54300, 54500, 54600],
-    
+    zipCodeRestriction : [54000, 54140, 54130, 54180, 54220, 54270, 54280, 54300, 54320, 54410, 54420, 54425, 54500, 54510, 54520, 54600, 54710],
 
     boundaryResolver : {
             name: 'Bano Geocodeur',

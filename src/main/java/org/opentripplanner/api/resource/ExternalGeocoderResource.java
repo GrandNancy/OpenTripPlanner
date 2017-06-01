@@ -44,7 +44,7 @@ public class ExternalGeocoderResource {
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
     public GeocoderResults geocode(
             @QueryParam("address") String address,
-            @QueryParam("zipRestrictions") List<Integer> zipRestrictions,
+            @QueryParam("zipCodeRestriction") List<Integer> zipCodeRestriction,
             @QueryParam("bbox") BoundingBox bbox) {
         if (address == null) {
             badRequest ("no address");
@@ -54,10 +54,10 @@ public class ExternalGeocoderResource {
             geocoder = newGeocoder;
         }
         Envelope env = (bbox == null) ? null : bbox.envelope();
-        if (zipRestrictions==null){
+        if (zipCodeRestriction==null){
             return geocoder.geocode(address, env);
         }
-        return geocoder.geocode(address, env, zipRestrictions);
+        return geocoder.geocode(address, env, zipCodeRestriction);
     }
 
     private void badRequest (String message) {

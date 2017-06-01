@@ -27,7 +27,7 @@ public class GeocoderNullImpl implements Geocoder {
     }
     
     @Override
-	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipCodeRestriction) {
 		return this.geocode(address, env);
 	}
 }

@@ -111,9 +111,9 @@ public class BanoGeocoder implements Geocoder {
     }
 
 	@Override
-	public GeocoderResults geocode(String address, Envelope bbox, List<Integer> zipRestrictions) {
+	public GeocoderResults geocode(String address, Envelope bbox, List<Integer> zipCodeRestriction) {
 		try {
-            URL banoUrl = getBanoGeocoderUrl(address, bbox, zipRestrictions);
+            URL banoUrl = getBanoGeocoderUrl(address, bbox, zipCodeRestriction);
             URLConnection conn = banoUrl.openConnection();
             InputStream in = conn.getInputStream();
             FeatureCollection featureCollection = mapper.readValue(in, FeatureCollection.class);
@@ -145,7 +145,7 @@ public class BanoGeocoder implements Geocoder {
         }
 	}
 
-	private URL getBanoGeocoderUrl(String address, Envelope bbox, List<Integer> zipRestrictions) throws MalformedURLException {
+	private URL getBanoGeocoderUrl(String address, Envelope bbox, List<Integer> zipCodeRestriction) throws MalformedURLException {
 		UriBuilder uriBuilder = UriBuilder.fromUri(BANO_URL);
         uriBuilder.queryParam("q", address);
         uriBuilder.queryParam("limit", CLAMP_RESULTS);

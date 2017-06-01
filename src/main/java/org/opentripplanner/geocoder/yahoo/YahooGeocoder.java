@@ -122,7 +122,7 @@ public class YahooGeocoder implements Geocoder {
 	}
 	
 	@Override
-	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipRestrictions) {
+	public GeocoderResults geocode(String address, Envelope env, List<Integer> zipCodeRestrictionzipCodeRestriction) {
 		return this.geocode(address, env);
 	}
 
