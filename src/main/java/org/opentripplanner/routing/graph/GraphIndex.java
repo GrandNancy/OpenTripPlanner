@@ -77,7 +77,7 @@ import java.util.concurrent.Executors;
 public class GraphIndex {
 
     private static final Logger LOG = LoggerFactory.getLogger(GraphIndex.class);
-    private static final int CLUSTER_RADIUS = 400; // meters
+    private static final int CLUSTER_RADIUS = 10; // meters // TL 16/06/2017 a low value prevent teleportation of the user between stops far away
 
     /** maximum distance to walk after leaving transit in Analyst */
     public static final int MAX_WALK_METERS = 3500;
