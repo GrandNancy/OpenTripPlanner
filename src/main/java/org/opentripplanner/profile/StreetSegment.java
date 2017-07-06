@@ -42,6 +42,7 @@ public class StreetSegment {
     public StreetSegment (State state) {
         GraphPath path = new GraphPath(state, false);
         CoordinateArrayListSequence coordinates = new CoordinateArrayListSequence();
+        /**TL geometry est toujours null, la boucle est inutile 05/07/2017
         for (Edge edge : path.edges) {
             LineString geometry = edge.getGeometry();
             if (geometry != null) {
@@ -52,6 +53,7 @@ public class StreetSegment {
                 }
             }
         }
+        */
         //TODO: localize
         try {
             Itinerary itin = GraphPathToTripPlanConverter.generateItinerary(path, false, true, new Locale("en"));

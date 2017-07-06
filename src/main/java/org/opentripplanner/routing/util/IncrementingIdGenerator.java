@@ -12,7 +12,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 package org.opentripplanner.routing.util;
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Generates unique identifiers by incrementing an internal counter.
@@ -21,10 +21,10 @@ package org.opentripplanner.routing.util;
  */
 public class IncrementingIdGenerator<T> implements UniqueIdGenerator<T> {
     
-    private int next;
+    private static AtomicInteger next;
     
     public IncrementingIdGenerator() {
-        this(0);
+        this(new AtomicInteger(0));
     }
     
     /**
@@ -34,8 +34,16 @@ public class IncrementingIdGenerator<T> implements UniqueIdGenerator<T> {
      * 
      * @param start
      */
-    public IncrementingIdGenerator(int start) {
+    public IncrementingIdGenerator(AtomicInteger start) {
         next = start;
+    }
+    
+    /**
+    * Convert the int to AtomicInteger
+    */
+    
+    public IncrementingIdGenerator(int start) {
+        this(new AtomicInteger(start));
     }
     
     /**
@@ -44,6 +52,6 @@ public class IncrementingIdGenerator<T> implements UniqueIdGenerator<T> {
      * @return 
      */
     public int getId(T elem) {
-        return next++;
+        return next.getAndIncrement();
     }
 }
